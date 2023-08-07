@@ -1,0 +1,16 @@
+name: deploy_staging
+on:
+  workflow_dispatch:
+
+jobs:
+  manual_deploy:
+    runs-on: node-runner
+    steps: 
+      - uses: actions/checkout@v2
+      - run: cd /home/node/node-js-sample/
+      - run: git -C /home/node/node-js-sample/ pull origin master
+      - run: npm install
+      - run: export PM2_HOME="/root/.pm2"; pm2 restart index
+        env:
+          CI: true
+        
